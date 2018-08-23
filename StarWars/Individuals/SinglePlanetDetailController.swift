@@ -29,7 +29,6 @@ class SinglePlanetDetailController: UIViewController {
     @IBOutlet weak var gravityLabel: UILabel!
     @IBOutlet weak var terrainLabel: UILabel!
     @IBOutlet weak var spinnerImage: UIImageView!
-    @IBOutlet weak var spinnerLoader: UIActivityIndicatorView!
     
     var urlString : String?
     var previousPage : Int?
@@ -69,7 +68,19 @@ class SinglePlanetDetailController: UIViewController {
         let surface = jsonResult["surface_water"].string!
         let diameter = jsonResult["diameter"].string!
         
-        //LLENAR LABELS
+        fillLabels(name: name, climate: climate, gravity: gravity, rotationPeriod: rotationPeriod, population: population, terrain: terrain, orbital: orbital, diameter: diameter, surface: surface)
+        unhideElements()
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "returnPlanets" {
+            let vc2 = segue.destination as! ViewControllerList
+            vc2.endingForeignKey = previousPage
+            vc2.nameForeign = previousName
+        }
+    }
+    func fillLabels(name:String,climate:String,gravity:String,rotationPeriod:String,population:String,terrain:String,orbital:String,diameter:String,surface:String) {
         planetNameLabel.text = name
         climateLabel.text = climate
         gravityLabel.text = gravity
@@ -79,16 +90,26 @@ class SinglePlanetDetailController: UIViewController {
         orbitalPeriodLabel.text = orbital
         diameterLabel.text = diameter
         surfaceWaterLabel.text = surface
-        
-        self.spinnerLoader.stopAnimating()
         spinnerImage.isHidden = true
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "returnPlanets" {
-            let vc2 = segue.destination as! ViewControllerList
-            vc2.endingForeignKey = previousPage
-            vc2.nameForeign = previousName
-        }
+    func unhideElements(){
+        planetNameLabel.isHidden = false
+        l1.isHidden = false
+        l2.isHidden = false
+        l3.isHidden = false
+        l4.isHidden = false
+        l5.isHidden = false
+        l6.isHidden = false
+        l7.isHidden = false
+        l8.isHidden = false
+        planetNameLabel.isHidden = false
+        climateLabel.isHidden = false
+        gravityLabel.isHidden = false
+        rotationPeriodLabel.isHidden = false
+        populationLabel.isHidden = false
+        terrainLabel.isHidden = false
+        orbitalPeriodLabel.isHidden = false
+        diameterLabel.isHidden = false
+        surfaceWaterLabel.isHidden = false
     }
 }
